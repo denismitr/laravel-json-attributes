@@ -27,7 +27,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Denismitr\\JsonAttributes\\": "tests/"
+            "Denismitr\\JsonAttributes\\Tests\\": "tests/"
         }
     },
     "scripts": {

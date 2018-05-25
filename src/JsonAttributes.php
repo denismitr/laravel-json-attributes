@@ -6,6 +6,7 @@ namespace Denismitr\JsonAttributes;
 use ArrayAccess;
 use Countable;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -163,6 +164,35 @@ class JsonAttributes implements ArrayAccess, Countable, Arrayable
     public function toArray()
     {
         return $this->all();
+    }
+
+    /**
+     * @param string $attributeName
+     * @return Builder
+     */
+    public static function scopeWithJsonAttributes(string $attributeName): Builder
+    {
+        $arguments = debug_backtrace()[1]['args'];
+
+        if (count($arguments) === 1) {
+            [$builder] = $arguments;
+            $jsonAttributes = [];
+        }
+
+        if (count($arguments) === 2) {
+            [$builder, $jsonAttributes] = $arguments;
+        }
+
+        if (count($arguments) >= 3) {
+            [$builder, $name, $value] = $arguments;
+            $jsonAttributes = [$name => $value];
+        }
+
+        foreach ($jsonAttributes as $name => $value) {
+            $builder->where("{$attributeName}->{$name}", $value);
+        }
+
+        return $builder;
     }
 
     /**

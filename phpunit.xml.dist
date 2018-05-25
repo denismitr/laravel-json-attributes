@@ -20,10 +20,10 @@
         </whitelist>
     </filter>
     <php>
-        <env name="DB_USERNAME" value="root"/>
-        <env name="DB_PASSWORD" value=""/>
+        <env name="DB_USERNAME" value="postgres"/>
+        <env name="DB_PASSWORD" value="secret"/>
         <env name="DB_DATABASE" value="laravel_json_attributes"/>
-        <env name="DB_CONNECTION" value="mysql"/>
+        <env name="DB_CONNECTION" value="pgsql"/>
     </php>
     <logging>
         <log type="tap" target="build/report.tap"/>
