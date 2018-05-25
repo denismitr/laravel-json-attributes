@@ -4,6 +4,8 @@
 namespace Denismitr\JsonAttributes\Tests;
 
 
+use Illuminate\Support\Collection;
+
 class JsonAttributesTest extends TestCase
 {
     private $record;
@@ -165,5 +167,91 @@ class JsonAttributesTest extends TestCase
         $this->record->json_data->name = 'value';
 
         $this->assertCount(1, $this->record->json_data);
+    }
+
+    /** @test */
+    public function it_can_be_used_as_an_arrayable()
+    {
+        $this->record->json_data->name = 'value';
+
+        $this->assertEquals(
+            $this->record->json_data->toArray(),
+            $this->record->json_data->all()
+        );
+    }
+
+    /** @test */
+    public function it_can_add_and_save_json_attributes_in_one_go()
+    {
+        $array = [
+            'name' => 'value',
+            'name2' => 'value2',
+        ];
+
+        $record = Record::create(['json_data' => $array]);
+
+        $this->assertEquals($array, $record->json_data->all());
+    }
+
+    /** @test */
+    public function it_can_set_multiple_attributes_one_after_the_other()
+    {
+        $this->record->json_data->name = 'value';
+        $this->record->json_data->name2 = 'value2';
+
+        $this->assertEquals([
+            'name' => 'value',
+            'name2' => 'value2',
+        ], $this->record->json_data->all());
+    }
+
+    /** @test */
+    public function it_has_a_scope_to_get_models_with_the_given_json_attributes()
+    {
+        Record::truncate();
+
+        $recordA = Record::create(['json_data' => [
+            'name' => 'value',
+            'name2' => 'value2',
+        ]]);
+
+        $recordB = Record::create(['json_data' => [
+            'name' => 'value',
+            'name2' => 'value2',
+        ]]);
+
+        $recordC = Record::create(['json_data' => [
+            'name' => 'value',
+            'name2' => 'value3',
+        ]]);
+
+        $this->assertContainsModels(
+            [$recordA, $recordB],
+            Record::withJsonData(['name' => 'value', 'name2' => 'value2'])->get()
+        );
+
+        $this->assertContainsModels(
+            [$recordC],
+            Record::withJsonData(['name' => 'value', 'name2' => 'value3'])->get()
+        );
+
+        $this->assertContainsModels(
+            [$recordA, $recordB, $recordC],
+            Record::withJsonData(['name' => 'value'])->get()
+        );
+
+        $this->assertContainsModels(
+            [], Record::withJsonData(['name' => 'non-existent'])->get()
+        );
+    }
+
+    protected function assertContainsModels(array $expectedModels, Collection $actualModels)
+    {
+        $assertionFailedMessage = vsprintf('Expected %d models. Got %d models', [
+            count($expectedModels),
+            $actualModels->count()
+        ]);
+
+        $this->assertCount(count($expectedModels), $actualModels, $assertionFailedMessage);
     }
 }
