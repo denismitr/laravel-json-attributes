@@ -36,6 +36,7 @@ class JsonAttributes implements ArrayAccess, Countable, Arrayable
     {
         $this->model = $model;
         $this->attributeName = $attributeName;
+        $this->jsonAttributes = $this->getDecodedAttributes();
     }
 
     /**
@@ -130,7 +131,7 @@ class JsonAttributes implements ArrayAccess, Countable, Arrayable
      */
     public function offsetGet($offset)
     {
-        return $this->get($offset);
+        return $this->{$offset};
     }
 
     /**
@@ -139,7 +140,7 @@ class JsonAttributes implements ArrayAccess, Countable, Arrayable
      */
     public function offsetSet($offset, $value)
     {
-        $this->set($offset, $value);
+        $this->{$offset} = $value;
     }
 
     /**
