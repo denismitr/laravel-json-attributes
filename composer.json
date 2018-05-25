@@ -1,0 +1,47 @@
+{
+    "name": "denismitr/laravel-json-attributes",
+    "description": "Laravel Json Attributes for Eloquent Models",
+    "keywords": ["denismitr", "laravel", "eloquent", "json", "json-attributes"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Denis Mitrofanov",
+            "email": "denis.mitr@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.1",
+        "illuminate/database": "^5.6",
+        "illuminate/support": "^5.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.1",
+        "orchestra/testbench": "^3.6",
+        "larapack/dd": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Denismitr\\JsonAttributes\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Denismitr\\JsonAttributes\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor\\bin\\phpunit",
+        "test-coverage": "vendor\\bin\\phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Denismitr\\JsonAttributes\\JsonAttributesServiceProvider"
+            ]
+        }
+    }
+}
