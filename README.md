@@ -2,7 +2,7 @@
 
 ## Author
 Denis Mitrofanov<br>
-[thecollection.ru](https://thecollection.com)
+[thecollection.ru](https://thecollection.ru)
 
 ### Installation
 ```composer require denismitr/laravel-json-attributes```
