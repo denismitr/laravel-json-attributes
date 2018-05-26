@@ -17,7 +17,11 @@ class TestCase extends OrchestraTestCase
         $this->setUpDatabase();
     }
 
-    protected function getPackageProviders()
+    /**
+     * @param \Illuminate\Foundation\Application $app
+     * @return array
+     */
+    protected function getPackageProviders($app)
     {
         return [
             JsonAttributesServiceProvider::class,
