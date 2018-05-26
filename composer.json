@@ -9,7 +9,6 @@
             "email": "denis.mitr@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "php": "^7.1",
         "illuminate/database": "^5.6",
