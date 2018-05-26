@@ -1,0 +1,31 @@
+language: php
+
+services:
+  - docker
+
+env:
+  matrix:
+    - COMPOSER_FLAGS="--prefer-dist"
+    - COMPOSER_FLAGS=""
+
+php:
+  - 7.1
+  - 7.2
+
+sudo: false
+
+install:
+  - trevis_retry composer install
+
+before_script:
+  - travis_retry composer self-update
+  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
+  - sudo services mysql stop
+  - docker-compose -f ./tests/docker-compose.yml up -d
+  - php tests/wait.php
+
+script:
+  - vendor/bin/phpunit
+
+after_script:
+  - docker-compose -f ./tests/docker-compose.yml down
