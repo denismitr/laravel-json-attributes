@@ -1,5 +1,7 @@
 # Laravel Json Attributes for Eloquent Models
 
+[![Build Status](https://travis-ci.org/denismitr/laravel-json-attributes.svg?branch=master)](https://travis-ci.org/denismitr/laravel-json-attributes)
+
 ## Author
 Denis Mitrofanov<br>
 [thecollection.ru](https://thecollection.ru)
