@@ -176,16 +176,16 @@ class JsonAttributes implements ArrayAccess, Countable, Arrayable
         $arguments = debug_backtrace()[1]['args'];
 
         if (count($arguments) === 1) {
-            [$builder] = $arguments;
+            list($builder) = $arguments;
             $jsonAttributes = [];
         }
 
         if (count($arguments) === 2) {
-            [$builder, $jsonAttributes] = $arguments;
+            list($builder, $jsonAttributes) = $arguments;
         }
 
         if (count($arguments) >= 3) {
-            [$builder, $name, $value] = $arguments;
+            list($builder, $name, $value) = $arguments;
             $jsonAttributes = [$name => $value];
         }
 
