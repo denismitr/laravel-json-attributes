@@ -15,6 +15,16 @@ POSTGRES (the one I tested it on is 9.6) probably any 9.* version or higher will
 ### Installation
 ```composer require denismitr/laravel-json-attributes```
 
+In Laravel 5.5 the service provider will automatically get registered. 
+In older versions of the framework just add the service provider in `config/app.php` file:
+
+```
+'providers' => [
+    // ...
+    Denismitr\JsonAttributes\JsonAttributesServiceProvider::class,
+];
+```
+
 ### Usage
 1. First add a `jsonData` column to your table
 ```php
