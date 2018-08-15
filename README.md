@@ -79,6 +79,68 @@ $this->record->json_data->array = $array;
 $this->assertEquals($array, $this->record->json_data->array);
 ```
 
+### Searching
+Since version `1.0` nested search is available
+
+```php
+$recordA = Record::create(['json_data' => [
+    'company' => 'Ecommelite',
+    'user' => [
+        'name' => 'Denis',
+        'job_title' => 'developer'
+    ]
+]]);
+
+$recordB = Record::create(['json_data' => [
+    'company' => 'Ecommelite',
+    'user' => [
+        'name' => 'Tom',
+        'job_title' => 'developer'
+    ]
+]]);
+
+$recordC = Record::create(['json_data' => [
+    'company' => 'Ecommelite',
+    'address' => [
+        'street' => '1st Street',
+        'phone' => 1234556
+    ]
+]]);
+
+$this->assertContainsModels(
+    [$recordA],
+    Record::withJsonData(['user.name' => 'Denis'])->get()
+);
+
+$this->assertContainsModels(
+    [$recordA, $recordB],
+    Record::withJsonData(['user.job_title' => 'developer'])->get()
+);
+
+$this->assertContainsModels(
+    [$recordA, $recordB],
+    Record::withJsonData(['user.job_title' => 'developer', 'company' => 'Ecommelite'])->get()
+);
+
+$this->assertContainsModels(
+    [$recordA],
+    Record::withJsonData([
+        'user.job_title' => 'developer',
+        'company' => 'Ecommelite',
+        'user.name' => 'Denis'
+    ])->get()
+);
+
+$this->assertContainsModels(
+    [$recordA, $recordB],
+    Record::withJsonData('user.job_title', 'developer')->get()
+);
+
+$this->assertContainsModels(
+    [], Record::withJsonData(['non.existent' => 'record'])->get()
+);
+```
+
 #### To see more look at the tests.
 
 ### Eloquent Model
