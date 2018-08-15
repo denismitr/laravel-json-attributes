@@ -251,8 +251,7 @@ class JsonAttributesTest extends TestCase
         Record::truncate();
 
         $recordA = Record::create(['json_data' => [
-            'company' => 'ecommelite',
-            'name2' => 'value2',
+            'company' => 'Ecommelite',
             'user' => [
                 'name' => 'Denis',
                 'job_title' => 'developer'
@@ -260,8 +259,7 @@ class JsonAttributesTest extends TestCase
         ]]);
 
         $recordB = Record::create(['json_data' => [
-            'company' => 'ecommelite',
-            'name2' => 'value2',
+            'company' => 'Ecommelite',
             'user' => [
                 'name' => 'Tom',
                 'job_title' => 'developer'
@@ -269,8 +267,7 @@ class JsonAttributesTest extends TestCase
         ]]);
 
         $recordC = Record::create(['json_data' => [
-            'company' => 'ecommelite',
-            'name2' => 'value3',
+            'company' => 'Ecommelite',
             'address' => [
                 'street' => '1st Street',
                 'phone' => 1234556
@@ -289,14 +286,14 @@ class JsonAttributesTest extends TestCase
 
         $this->assertContainsModels(
             [$recordA, $recordB],
-            Record::withJsonData(['user.job_title' => 'developer', 'company' => 'ecommelite'])->get()
+            Record::withJsonData(['user.job_title' => 'developer', 'company' => 'Ecommelite'])->get()
         );
 
         $this->assertContainsModels(
             [$recordA],
             Record::withJsonData([
                 'user.job_title' => 'developer',
-                'company' => 'ecommelite',
+                'company' => 'Ecommelite',
                 'user.name' => 'Denis'
             ])->get()
         );
