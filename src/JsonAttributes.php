@@ -8,6 +8,7 @@ use Countable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 
 class JsonAttributes implements ArrayAccess, Countable, Arrayable
@@ -175,21 +176,27 @@ class JsonAttributes implements ArrayAccess, Countable, Arrayable
     {
         $arguments = debug_backtrace()[1]['args'];
 
+        // only builder
         if (count($arguments) === 1) {
             list($builder) = $arguments;
             $jsonAttributes = [];
         }
 
+        // builder, ['key' => 'value']
         if (count($arguments) === 2) {
             list($builder, $jsonAttributes) = $arguments;
         }
 
+        // builder, key, value
         if (count($arguments) >= 3) {
             list($builder, $name, $value) = $arguments;
             $jsonAttributes = [$name => $value];
         }
 
         foreach ($jsonAttributes as $name => $value) {
+            // substitute dot notation with ->
+            $name = static::normalizePropertyName($name);
+
             $builder->where("{$attributeName}->{$name}", $value);
         }
 
@@ -202,5 +209,18 @@ class JsonAttributes implements ArrayAccess, Countable, Arrayable
     protected function getDecodedAttributes(): array
     {
         return json_decode($this->model->getAttributes()[$this->attributeName] ?? '{}', true);
+    }
+
+    /**
+     * substitutes dot notation with ->
+     *
+     * e.g user.name becomes user->name
+     *
+     * @param string $name
+     * @return string
+     */
+    protected static function normalizePropertyName($name)
+    {
+        return str_replace('.', '->', $name);
     }
 }

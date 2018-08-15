@@ -245,6 +245,76 @@ class JsonAttributesTest extends TestCase
         );
     }
 
+    /** @test */
+    public function it_uses_scope_to_get_models_with_the_nested_json_attributes()
+    {
+        Record::truncate();
+
+        $recordA = Record::create(['json_data' => [
+            'company' => 'ecommelite',
+            'name2' => 'value2',
+            'user' => [
+                'name' => 'Denis',
+                'job_title' => 'developer'
+            ]
+        ]]);
+
+        $recordB = Record::create(['json_data' => [
+            'company' => 'ecommelite',
+            'name2' => 'value2',
+            'user' => [
+                'name' => 'Tom',
+                'job_title' => 'developer'
+            ]
+        ]]);
+
+        $recordC = Record::create(['json_data' => [
+            'company' => 'ecommelite',
+            'name2' => 'value3',
+            'address' => [
+                'street' => '1st Street',
+                'phone' => 1234556
+            ]
+        ]]);
+
+        $this->assertContainsModels(
+            [$recordA],
+            Record::withJsonData(['user.name' => 'Denis'])->get()
+        );
+
+        $this->assertContainsModels(
+            [$recordA, $recordB],
+            Record::withJsonData(['user.job_title' => 'developer'])->get()
+        );
+
+        $this->assertContainsModels(
+            [$recordA, $recordB],
+            Record::withJsonData(['user.job_title' => 'developer', 'company' => 'ecommelite'])->get()
+        );
+
+        $this->assertContainsModels(
+            [$recordA],
+            Record::withJsonData([
+                'user.job_title' => 'developer',
+                'company' => 'ecommelite',
+                'user.name' => 'Denis'
+            ])->get()
+        );
+
+        $this->assertContainsModels(
+            [$recordA, $recordB],
+            Record::withJsonData('user.job_title', 'developer')->get()
+        );
+
+        $this->assertContainsModels(
+            [], Record::withJsonData(['non.existent' => 'record'])->get()
+        );
+
+        $this->assertContainsModels(
+            [], Record::withJsonData(['name' => 'non-existent'])->get()
+        );
+    }
+
     protected function assertContainsModels(array $expectedModels, Collection $actualModels)
     {
         $assertionFailedMessage = vsprintf('Expected %d models. Got %d models', [
