@@ -10,13 +10,13 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
-        "illuminate/database": "~5.5.0|~5.6.0",
-        "illuminate/support": "~5.5.0|~5.6.0"
+        "php": ">=7.2",
+        "illuminate/database": "~5.7.0|~5.8.0",
+        "illuminate/support": "~5.7.0|~5.8.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.5",
-        "orchestra/testbench": "^3.5",
+        "phpunit/phpunit": "^7.3",
+        "orchestra/testbench": "~3.7.0|~3.8.0",
         "larapack/dd": "^1.1"
     },
     "autoload": {
@@ -30,7 +30,7 @@
         }
     },
     "scripts": {
-        "test": "vendor\\bin\\phpunit",
+        "test": "./test.sh",
         "test-coverage": "vendor\\bin\\phpunit --coverage-html coverage"
     },
     "config": {

@@ -10,7 +10,7 @@ class JsonAttributesTest extends TestCase
 {
     private $record;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
