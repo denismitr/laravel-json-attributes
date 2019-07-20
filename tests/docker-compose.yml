@@ -11,4 +11,4 @@ services:
       MYSQL_ROOT_HOST: "0.0.0.0"
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     ports:
-      - "3306:3306"
+      - "3366:3306"
