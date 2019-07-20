@@ -7,7 +7,7 @@ Denis Mitrofanov<br>
 [thecollection.ru](https://thecollection.ru)
 
 ### Requirements
-PHP 7.0 or higher
+PHP 7.2 or higher
 MYSQL 5.7 or higher
 or 
 POSTGRES (the one I tested it on is 9.6) probably any 9.* version or higher will do
